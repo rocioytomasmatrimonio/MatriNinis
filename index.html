@@ -76,17 +76,17 @@
     background-color: transparent;
   }
   .stamp-frame .edge-t, .stamp-frame .edge-b{
-    left:0; right:0; height: var(--frame);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Ccircle cx='8' cy='8' r='7' fill='none' stroke='%232B2620' stroke-width='1.4'/%3E%3C/svg%3E");
-    background-size: 16px 16px;
+    left: var(--frame); right: var(--frame); height: var(--frame);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='16'%3E%3Cpath d='M0,8 Q10,0 20,8 T40,8' fill='none' stroke='%232B2620' stroke-width='1.6'/%3E%3C/svg%3E");
+    background-size: 40px 16px;
     background-position: center;
   }
   .stamp-frame .edge-t{ top:0; }
   .stamp-frame .edge-b{ bottom:0; }
   .stamp-frame .edge-l, .stamp-frame .edge-r{
     top:0; bottom:0; width: var(--frame);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Ccircle cx='8' cy='8' r='7' fill='none' stroke='%232B2620' stroke-width='1.4'/%3E%3C/svg%3E");
-    background-size: 16px 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='40'%3E%3Cpath d='M8,0 Q0,10 8,20 T8,40' fill='none' stroke='%232B2620' stroke-width='1.6'/%3E%3C/svg%3E");
+    background-size: 16px 40px;
     background-position: center;
   }
   .stamp-frame .edge-l{ left:0; }
@@ -298,6 +298,8 @@
     .details-row{ gap: 1.6rem; }
   }
 
+.float-play{ position: fixed; bottom: calc(var(--frame) + 16px); right: calc(var(--frame) + 16px); z-index: 250; background: var(--ink); color: var(--cream); border: none; border-radius: 999px; padding: .8em 1.3em; font-family: var(--font-sans); font-size: .85rem; font-weight: 500; cursor: pointer; box-shadow: 0 4px 14px rgba(43,38,32,.25); } .float-play:hover{ background: var(--sage-dark); }
+
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
     .scroll-hint{ animation:none; }
@@ -314,6 +316,7 @@
   <span class="edge-r"></span>
 </div>
 
+<button class="float-play" id="float-play-btn">♪ Reproducir canción</button>
 <!-- ============ HERO ============ -->
 <section class="hero" id="inicio">
   <svg class="sprig" viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -330,16 +333,16 @@
   </svg>
   <span class="kicker">Nos casamos</span>
   <h1 class="names">Ninis</h1>
-  <p class="tagline">Una historia que decidimos seguir escribiendo juntos, y nos encantaría que la celebren con nosotros.</p>
+  <p class="tagline">Una historia que decidimos seguir escribiendo juntos, y nos encantaría que la celebren con nosotros. (Frase a cambiar)</p>
   <p class="date-line"><span class="star">✦</span> 15 de enero de 2027 <span class="dot">·</span> 18:30 hrs <span class="star">✦</span></p>
-  <span class="scroll-hint">Desliza ↓</span>
+  <span class="scroll-hint">Desliza ↓ (opcional)</span>
 </section>
 
 <!-- ============ GALERÍA ============ -->
 <section id="galeria">
-  <span class="eyebrow" style="text-align:center;display:block;">Recuerdos</span>
-  <h2 class="section-title">Galería</h2>
-  <p class="lead">Un vistazo a nuestra historia. Toca cualquier foto para verla en grande.</p>
+  <!-- <span class="eyebrow" style="text-align:center;display:block;">Recuerdos</span> -->
+  <h2 class="section-title">Recuerdos</h2>
+  <!-- <p class="lead">Un vistazo a nuestra historia. Toca cualquier foto para verla en grande.</p> -->
 
   <div class="gallery-grid" id="gallery">
     <!-- EDITAR: reemplaza cada src por tus propias fotos. Mantén las imágenes en una carpeta /fotos junto a este archivo. -->
@@ -357,22 +360,12 @@
   <img src="" alt="" id="lightbox-img">
 </div>
 
-<!-- ============ CUENTA REGRESIVA ============ -->
-<section id="cuenta-regresiva" class="countdown">
-  <span class="eyebrow">Falta poco</span>
-  <h2 class="section-title">Cuenta regresiva</h2>
-  <div class="countdown-grid" id="countdown">
-    <div><span class="countdown-num" id="cd-days">--</span><span class="countdown-label">Días</span></div>
-    <div><span class="countdown-num" id="cd-hours">--</span><span class="countdown-label">Horas</span></div>
-    <div><span class="countdown-num" id="cd-min">--</span><span class="countdown-label">Min</span></div>
-    <div><span class="countdown-num" id="cd-sec">--</span><span class="countdown-label">Seg</span></div>
-  </div>
-</section>
 
 <!-- ============ DETALLES ============ -->
 <section id="detalles">
-  <span class="eyebrow" style="text-align:center;display:block;">Información</span>
-  <h2 class="section-title">Detalles del día</h2>
+  <!-- <span class="eyebrow" style="text-align:center;display:block;">Información</span> -->
+  <!-- <h2 class="section-title">Detalles del gran día</h2> -->
+  <h2 class="section-title">Detalles del gran día</h2>
   <div class="details-card">
     <div class="details-row">
       <div class="item"><span class="l">Fecha</span><span class="k">15 de enero, 2027</span></div>
@@ -387,9 +380,11 @@
 
 <!-- ============ ITINERARIO ============ -->
 <section id="itinerario">
-  <span class="eyebrow" style="text-align:center;display:block;">El plan</span>
+  <!-- <span class="eyebrow" style="text-align:center;display:block;">El plan</span> -->
+  <!-- <h2 class="section-title">Itinerario</h2> -->
+  <!-- <p class="lead">Así se irá dando la noche</p> -->
   <h2 class="section-title">Itinerario</h2>
-  <p class="lead">Así se va a ir dando el día.</p>
+  <p class="lead">Así se irá dando la noche</p>
   <div class="timeline">
     <div class="timeline-item"><div class="time">18:30 hrs</div><div class="what">Llegada de los invitades</div></div>
     <div class="timeline-item"><div class="time">18:45 hrs</div><div class="what">Ceremonia</div></div>
@@ -401,46 +396,48 @@
 
 <!-- ============ DRESS CODE ============ -->
 <section id="dress-code" style="text-align:center;">
-  <span class="eyebrow">Cómo vestir</span>
+  <!-- <span class="eyebrow">Cómo vestir</span> -->
+  <!-- <h2 class="section-title">Dress code</h2> -->
+  <!-- <p class="lead">Formal / Elegante. Nos encantaría ver tonos tierra, crema y verde salvia — evita el blanco, marfil y beige muy claro, reservados para la novia.</p> -->
   <h2 class="section-title">Dress code</h2>
   <p class="lead">Formal / Elegante. Nos encantaría ver tonos tierra, crema y verde salvia — evita el blanco, marfil y beige muy claro, reservados para la novia.</p>
-  <div class="swatches" aria-hidden="true">
-    <div class="swatch" style="background:#F6F0E1;"></div>
-    <div class="swatch" style="background:#C6A25E;"></div>
-    <div class="swatch" style="background:#7C8F6E;"></div>
-    <div class="swatch" style="background:#5C6E50;"></div>
-    <div class="swatch" style="background:#2B2620;"></div>
-  </div>
+  <!-- <div class="swatches" aria-hidden="true"> -->
+    <!-- <div class="swatch" style="background:#F6F0E1;"></div> -->
+    <!-- <div class="swatch" style="background:#C6A25E;"></div> -->
+    <!-- <div class="swatch" style="background:#7C8F6E;"></div> -->
+    <!-- <div class="swatch" style="background:#5C6E50;"></div> -->
+    <!-- <div class="swatch" style="background:#2B2620;"></div> -->
+  <!-- </div> -->
 </section>
 
 <!-- ============ RECOMENDACIONES ============ -->
 <section id="recomendaciones">
-  <span class="eyebrow" style="text-align:center;display:block;">Buenos consejos</span>
+  <!-- <span class="eyebrow" style="text-align:center;display:block;">Buenos consejos</span> -->
   <h2 class="section-title">Recomendaciones</h2>
   <div class="cards-3">
     <div class="rec-card">
       <div class="icon">🅿️</div>
       <h3>Estacionamiento</h3>
-      <p>El lugar cuenta con estacionamiento para invitados. Te recomendamos llegar con unos minutos de anticipación.</p>
+      <p>El lugar cuenta con estacionamiento para invitados. Te recomendamos llegar con unos minutos de anticipación. Si no quieres preocuparte de la vuelta, te dejamos algunos angelitos (recuerda que algunos seguros de auto incluyen este servicio, nosotros ya lo hemos usado!)</p>
     </div>
     <div class="rec-card">
       <div class="icon">☀️</div>
       <h3>Clima</h3>
-      <p>Enero es temporada de verano — noches cálidas. Un abrigo ligero para la fiesta no está de más.</p>
+      <p>Enero es temporada de verano hot. Puedes traer tus facheros lentes y abanico</p>
     </div>
     <div class="rec-card">
       <div class="icon">🚕</div>
-      <h3>Transporte</h3>
-      <p>Si prefieres no manejar, considera coordinar taxi o app de transporte para el regreso.</p>
+      <h3>No bbys/h3>
+      <p>Queremos disfrutar con ustedes! La celebración será sin niños, gracias por entender.</p>
     </div>
   </div>
 </section>
 
 <!-- ============ REGALOS ============ -->
 <section id="regalos" style="text-align:center;">
-  <span class="eyebrow">Tu presencia es el mejor regalo</span>
-  <h2 class="section-title">Mesa de regalos</h2>
-  <p class="lead">Pero si deseas tener un detalle con nosotros, aquí van dos opciones.</p>
+<!-- <span class="eyebrow">Tu presencia es el mejor regalo</span> -->
+  <h2 class="section-title">Regalos</h2>
+  <p class="lead">Compartir contigo es lo que más queremos</p>
   <div class="gift-options">
     <div class="gift-card">
       <h3>Lista de novios</h3>
@@ -464,21 +461,22 @@
   </div>
 </section>
 
-<!-- ============ MÚSICA ============ -->
-<section id="musica">
-  <span class="eyebrow" style="text-align:center;display:block;">Ayúdanos a armar la fiesta</span>
-  <h2 class="section-title">Playlist colaborativa</h2>
-  <p class="lead">Agrega la canción que no puede faltar en la pista.</p>
-  <div class="music-wrap">
-    <iframe src="https://open.spotify.com/embed/track/4131I9Y7U9QTLI4mAhpUTQ?utm_source=generator" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Canción en Spotify"></iframe>
-    <p class="music-fallback">¿No carga el reproductor? <a href="https://open.spotify.com/track/4131I9Y7U9QTLI4mAhpUTQ" target="_blank" rel="noopener">Escúchala directo en Spotify →</a></p>
-  </div>
-</section>
+============ MÚSICA ============
+<!-- <section id="musica"> -->
+  <!-- <span class="eyebrow" style="text-align:center;display:block;">Ayúdanos a armar la fiesta</span> -->
+  <!-- <h2 class="section-title">Playlist colaborativa</h2> -->
+  <!-- <p class="lead">Agrega la canción que no puede faltar en la pista.</p> -->
+  <!-- <div class="music-wrap"> -->
+    <!-- <iframe src="https://open.spotify.com/ <div id="spotify-embed"></div> -->
+https://open.spotify.com/embed/track/0CLkh97Wu6tiusLNShS8T1?utm_source=generator
+	<!-- <p class="music-fallback">¿No carga el reproductor? <a href="https://open.spotify.com/track/4131I9Y7U9QTLI4mAhpUTQ" target="_blank" rel="noopener">Escúchala directo en Spotify →</a></p> -->
+  <!-- </div> -->
+<!-- </section> -->
 
 <!-- ============ RSVP ============ -->
 <section id="rsvp">
-  <span class="eyebrow" style="text-align:center;display:block;">Confírmanos</span>
-  <h2 class="section-title">¿Nos acompañas?</h2>
+<!-- <span class="eyebrow" style="text-align:center;display:block;">Confírmanos</span> -->
+  <h2 class="section-title">Confírmanos</h2>
   <p class="lead">Por favor confirma tu asistencia antes del 15 de diciembre de 2026.</p>
 
   <form class="rsvp" id="rsvp-form">
@@ -491,7 +489,7 @@
       <label>¿Asistirás?</label>
       <div class="radio-group">
         <label><input type="radio" name="asistira" value="si" required> Sí, ahí estaré</label>
-        <label><input type="radio" name="asistira" value="no" required> No podré ir</label>
+        <label><input type="radio" name="asistira" value="no" required> No podré asistir</label>
       </div>
     </div>
 
@@ -510,16 +508,17 @@
         <label for="alergias">Alergias</label>
         <input type="text" id="alergias" name="alergias" placeholder="Ej. maní, mariscos...">
       </div>
+	    <div class="field">
+      <label for="mensaje">Mensaje para los novios</label>
+      <textarea id="mensaje" name="mensaje" placeholder="Déjanos unas palabras..."></textarea>
+    </div>   
       <div class="field">
-        <label for="cancion">Una canción que no puede faltar</label>
+        <label for="cancion">Qué canción quieres bailar esa noche?</label>
         <input type="text" id="cancion" name="cancion" placeholder="Artista - Canción">
       </div>
     </div>
 
-    <div class="field">
-      <label for="mensaje">Mensaje para los novios</label>
-      <textarea id="mensaje" name="mensaje" placeholder="Déjanos unas palabras..."></textarea>
-    </div>
+
 
     <div class="submit-row">
       <button type="submit" class="btn" id="rsvp-submit">Enviar confirmación</button>
@@ -528,9 +527,22 @@
   </form>
 </section>
 
+<!-- ============ CUENTA REGRESIVA ============ -->
+<section id="cuenta-regresiva" class="countdown">
+  <span class="eyebrow">Falta poco</span>
+  <h2 class="section-title">Cuenta regresiva</h2>
+  <div class="countdown-grid" id="countdown">
+    <div><span class="countdown-num" id="cd-days">--</span><span class="countdown-label">Días</span></div>
+    <div><span class="countdown-num" id="cd-hours">--</span><span class="countdown-label">Horas</span></div>
+    <div><span class="countdown-num" id="cd-min">--</span><span class="countdown-label">Min</span></div>
+    <div><span class="countdown-num" id="cd-sec">--</span><span class="countdown-label">Seg</span></div>
+  </div>
+</section>
+
+
 <footer>
   <div class="fnames">Ninis</div>
-  <div class="fdate">15 · 01 · 2027</div>
+  <div class="fdate">15 · 01 · 2027 — Puerto La Reserva</div>
 </footer>
 
 <script>
@@ -538,7 +550,7 @@
   "use strict";
 
   /* ============ COUNTDOWN ============ */
-  // Fecha del evento (hora de Perú, UTC-5)
+  // Fecha del evento (hora de Chile, UTC-4)
   var EVENT_DATE = new Date("2027-01-15T18:30:00-05:00");
 
   function pad(n){ return String(n).padStart(2,"0"); }
@@ -660,9 +672,9 @@
       form.reset();
       conditional.classList.remove("show");
       if(payload.asistira === "si"){
-        msgEl.textContent = "¡Gracias, " + payload.nombre + "! Nos encanta que nos acompañes. Nos vemos el 15 de enero.";
+        msgEl.textContent = "¡Buenísimo, " + payload.nombre + " Nos vemos el 15 de enero.";
       } else {
-        msgEl.textContent = "Gracias por avisarnos, " + payload.nombre + ". Te vamos a extrañar ese día. ♡";
+        msgEl.textContent = "Gracias por avisarnos, " + payload.nombre + ". Te extrañaremos ese día. ♡";
       }
     })
     .catch(function(){
@@ -675,6 +687,12 @@
   });
 
 })();
+var spotifyController = null; window.onSpotifyIframeApiReady = function(IFrameAPI){ var element = document.getElementById("spotify-embed"); var options = { uri: "spotify:track:0CLkh97Wu6tiusLNShS8T1", width: "100%", height: "152" }; IFrameAPI.createController(element, options, function(EmbedController){ spotifyController = EmbedController; }); }; document.getElementById("float-play-btn").addEventListener("click", function(){ if(spotifyController){ spotifyController.play(); } this.style.display = "none"; }); Luego, busca la línea </script> que viene INMEDIATAMENTE después de ese '})();' (la que cierra todo el bloque de script), y justo DESPUÉS de ella (antes de </body>) agrega esta línea nueva: <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+1
+2
+3
+
+
 </script>
 </body>
 </html>
