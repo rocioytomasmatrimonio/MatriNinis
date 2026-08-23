@@ -389,14 +389,13 @@
 <section id="itinerario">
   <span class="eyebrow" style="text-align:center;display:block;">El plan</span>
   <h2 class="section-title">Itinerario</h2>
-  <p class="lead">EDITAR: ajusta los horarios y momentos a tu programa real.</p>
+  <p class="lead">Así se va a ir dando el día.</p>
   <div class="timeline">
-    <div class="timeline-item"><div class="time">7:00 pm</div><div class="what">Ceremonia</div></div>
-    <div class="timeline-item"><div class="time">7:45 pm</div><div class="what">Cóctel de bienvenida</div></div>
-    <div class="timeline-item"><div class="time">9:00 pm</div><div class="what">Cena</div></div>
-    <div class="timeline-item"><div class="time">10:00 pm</div><div class="what">Brindis y primer baile</div></div>
-    <div class="timeline-item"><div class="time">10:30 pm</div><div class="what">Fiesta</div></div>
-    <div class="timeline-item"><div class="time">1:00 am</div><div class="what">Última canción</div></div>
+    <div class="timeline-item"><div class="time">18:30 hrs</div><div class="what">Llegada de los invitades</div></div>
+    <div class="timeline-item"><div class="time">18:45 hrs</div><div class="what">Ceremonia</div></div>
+    <div class="timeline-item"><div class="time">Al finalizar</div><div class="what">Cóctel de bienvenida, seguido de la comida</div></div>
+    <div class="timeline-item"><div class="time">22:30 hrs</div><div class="what">Party Rock</div></div>
+    <div class="timeline-item"><div class="time">03:30 hrs</div><div class="what">Tuto wawa</div></div>
   </div>
 </section>
 
@@ -452,10 +451,12 @@
       <h3>Transferencia bancaria</h3>
       <button class="btn outline" id="toggle-bank">Ver datos bancarios</button>
       <div class="bank-details" id="bank-details">
-        <div class="row"><span>Banco</span><span>EDITAR</span></div>
-        <div class="row"><span>Titular</span><span>EDITAR</span></div>
-        <div class="row"><span>Cuenta</span><span>EDITAR</span></div>
-        <div class="row"><span>CCI</span><span>EDITAR</span></div>
+        <div class="row"><span>Banco</span><span>Mercado Pago</span></div>
+        <div class="row"><span>Titular</span><span>Tomás Emilio Felipe Hidalgo Ávila</span></div>
+        <div class="row"><span>RUT</span><span>18.669.353-1</span></div>
+        <div class="row"><span>Tipo de cuenta</span><span>Cuenta Vista</span></div>
+        <div class="row"><span>N.º de cuenta</span><span>1062097948</span></div>
+        <div class="row"><span>Correo</span><span>rocioytomasmatrimonio@gmail.com</span></div>
         <button class="btn" id="copy-bank" style="margin-top:1rem;width:100%;justify-content:center;">Copiar datos</button>
         <div class="copy-msg" id="copy-msg"></div>
       </div>
@@ -469,9 +470,8 @@
   <h2 class="section-title">Playlist colaborativa</h2>
   <p class="lead">Agrega la canción que no puede faltar en la pista.</p>
   <div class="music-wrap">
-    <!-- EDITAR: reemplaza el ID de la playlist por la tuya -->
-    <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Playlist colaborativa de Spotify"></iframe>
-    <p class="music-fallback">¿No carga el reproductor? <a href="https://youtube.com/playlist?list=EDITAR" target="_blank" rel="noopener">Escucha la playlist en YouTube →</a></p>
+    <iframe src="https://open.spotify.com/embed/track/4131I9Y7U9QTLI4mAhpUTQ?utm_source=generator" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Canción en Spotify"></iframe>
+    <p class="music-fallback">¿No carga el reproductor? <a href="https://open.spotify.com/track/4131I9Y7U9QTLI4mAhpUTQ" target="_blank" rel="noopener">Escúchala directo en Spotify →</a></p>
   </div>
 </section>
 
@@ -626,8 +626,7 @@
   });
 
   /* ============ RSVP SUBMIT -> GOOGLE APPS SCRIPT ============ */
-  // EDITAR: pega aquí la URL de tu Google Apps Script Web App (ver instrucciones)
-  var SCRIPT_URL = "PEGA_AQUI_TU_URL_DE_GOOGLE_APPS_SCRIPT";
+  var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzmaNNgr9OcO3TrN5M_zAhBkC_O6Rw6MCp_qb9x4MOACTuEAU8K8se25kYFICs85PoV/exec";
 
   var form = document.getElementById("rsvp-form");
   var msgEl = document.getElementById("rsvp-msg");
