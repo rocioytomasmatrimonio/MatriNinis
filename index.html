@@ -416,18 +416,18 @@
   <h2 class="section-title">Recomendaciones</h2>
   <div class="cards-3">
     <div class="rec-card">
-      <div class="icon">🅿️</div>
+      <div class="icon">🚖</div>
       <h3>Estacionamiento</h3>
       <p>El lugar cuenta con estacionamiento para invitados. Te recomendamos llegar con unos minutos de anticipación. Si no quieres preocuparte de la vuelta, te dejamos algunos angelitos (recuerda que algunos seguros de auto incluyen este servicio, nosotros ya lo hemos usado!)</p>
     </div>
     <div class="rec-card">
       <div class="icon">☀️</div>
       <h3>Clima</h3>
-      <p>Enero es temporada de verano hot. Puedes traer tus facheros lentes y abanico</p>
+      <p>Enero es temporada de verano hot. Puedes traer tus lentes y abanico facheros</p>
     </div>
     <div class="rec-card">
-      <div class="icon">🚕</div>
-      <h3>No bbys/h3>
+      <div class="icon">🍼</div>
+      <h3>No bbys</h3>
       <p>Queremos disfrutar con ustedes! La celebración será sin niños, gracias por entender.</p>
     </div>
   </div>
@@ -446,7 +446,7 @@
     </div>
     <div class="gift-card">
       <h3>Transferencia bancaria</h3>
-      <button class="btn outline" id="toggle-bank">Ver datos bancarios</button>
+      <button class="btn outline" id="toggle-bank">Ver datos bancarios→</button>
       <div class="bank-details" id="bank-details">
         <div class="row"><span>Banco</span><span>Mercado Pago</span></div>
         <div class="row"><span>Titular</span><span>Tomás Emilio Felipe Hidalgo Ávila</span></div>
@@ -461,14 +461,13 @@
   </div>
 </section>
 
-============ MÚSICA ============
+<!-- ============ MÚSICA ============ -->
 <!-- <section id="musica"> -->
   <!-- <span class="eyebrow" style="text-align:center;display:block;">Ayúdanos a armar la fiesta</span> -->
   <!-- <h2 class="section-title">Playlist colaborativa</h2> -->
   <!-- <p class="lead">Agrega la canción que no puede faltar en la pista.</p> -->
   <!-- <div class="music-wrap"> -->
     <!-- <iframe src="https://open.spotify.com/ <div id="spotify-embed"></div> -->
-https://open.spotify.com/embed/track/0CLkh97Wu6tiusLNShS8T1?utm_source=generator
 	<!-- <p class="music-fallback">¿No carga el reproductor? <a href="https://open.spotify.com/track/4131I9Y7U9QTLI4mAhpUTQ" target="_blank" rel="noopener">Escúchala directo en Spotify →</a></p> -->
   <!-- </div> -->
 <!-- </section> -->
@@ -477,7 +476,7 @@ https://open.spotify.com/embed/track/0CLkh97Wu6tiusLNShS8T1?utm_source=generator
 <section id="rsvp">
 <!-- <span class="eyebrow" style="text-align:center;display:block;">Confírmanos</span> -->
   <h2 class="section-title">Confírmanos</h2>
-  <p class="lead">Por favor confirma tu asistencia antes del 15 de diciembre de 2026.</p>
+  <p class="lead">Por favor respóndenos antes del 15 de diciembre de 2026.</p>
 
   <form class="rsvp" id="rsvp-form">
     <div class="field">
@@ -687,12 +686,10 @@ https://open.spotify.com/embed/track/0CLkh97Wu6tiusLNShS8T1?utm_source=generator
   });
 
 })();
-var spotifyController = null; window.onSpotifyIframeApiReady = function(IFrameAPI){ var element = document.getElementById("spotify-embed"); var options = { uri: "spotify:track:0CLkh97Wu6tiusLNShS8T1", width: "100%", height: "152" }; IFrameAPI.createController(element, options, function(EmbedController){ spotifyController = EmbedController; }); }; document.getElementById("float-play-btn").addEventListener("click", function(){ if(spotifyController){ spotifyController.play(); } this.style.display = "none"; }); Luego, busca la línea </script> que viene INMEDIATAMENTE después de ese '})();' (la que cierra todo el bloque de script), y justo DESPUÉS de ella (antes de </body>) agrega esta línea nueva: <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
-1
-2
-3
+var spotifyController = null; window.onSpotifyIframeApiReady = function(IFrameAPI){ var element = document.getElementById("spotify-embed"); var options = { uri: "spotify:track:0CLkh97Wu6tiusLNShS8T1", width: "100%", height: "152" }; IFrameAPI.createController(element, options, function(EmbedController){ spotifyController = EmbedController; }); }; document.getElementById("float-play-btn").addEventListener("click", function(){ if(spotifyController){ spotifyController.play(); } this.style.display = "none"; });
 
 
 </script>
+<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 </body>
 </html>
