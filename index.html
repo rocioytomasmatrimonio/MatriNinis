@@ -106,7 +106,7 @@
     padding: 3rem 1rem;
     position: relative;
   }
-  .hero .sprig{ width: 120px; height:auto; margin-bottom: 1.4rem; color: var(--sage-dark); }
+  .hero .silhouette{ width: 220px; max-width: 70vw; height:auto; margin-bottom: 1.4rem; }
   .hero .kicker{
     font-family: var(--font-sans);
     letter-spacing:.35em; text-transform:uppercase;
@@ -319,17 +319,29 @@
 <button class="float-play" id="float-play-btn">♪ Reproducir canción</button>
 <!-- ============ HERO ============ -->
 <section class="hero" id="inicio">
-  <svg class="sprig" viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M20 45 C 60 20, 140 20, 180 45" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-    <path d="M40 40 C 34 30, 30 22, 34 14" stroke="currentColor" stroke-width="1.2" fill="none"/>
-    <path d="M34 14 C 26 16, 20 22, 22 30 C 30 30, 34 22, 34 14 Z" fill="none" stroke="currentColor" stroke-width="1.2"/>
-    <path d="M65 33 C 61 24, 58 17, 62 9" stroke="currentColor" stroke-width="1.2" fill="none"/>
-    <path d="M62 9 C 54 11, 49 17, 51 25 C 58 25, 61 17, 62 9 Z" fill="none" stroke="currentColor" stroke-width="1.2"/>
-    <circle cx="100" cy="24" r="4.5" fill="none" stroke="#C6A25E" stroke-width="1.3"/>
-    <path d="M135 33 C 139 24, 142 17, 138 9" stroke="currentColor" stroke-width="1.2" fill="none"/>
-    <path d="M138 9 C 146 11, 151 17, 149 25 C 142 25, 139 17, 138 9 Z" fill="none" stroke="currentColor" stroke-width="1.2"/>
-    <path d="M160 40 C 166 30, 170 22, 166 14" stroke="currentColor" stroke-width="1.2" fill="none"/>
-    <path d="M166 14 C 174 16, 180 22, 178 30 C 170 30, 166 22, 166 14 Z" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <svg class="silhouette" viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Silueta de la pareja de espaldas junto a su perrita">
+    <g fill="#2B2620">
+      <!-- perrita, entre los dos -->
+      <path d="M115,150 Q98,138 105,120 Q110,137 122,151 Z"/>
+      <ellipse cx="145" cy="155" rx="32" ry="16"/>
+      <rect x="115" y="163" width="7" height="19" rx="2"/>
+      <rect x="127" y="163" width="7" height="19" rx="2"/>
+      <rect x="160" y="163" width="7" height="19" rx="2"/>
+      <rect x="172" y="163" width="7" height="19" rx="2"/>
+      <circle cx="180" cy="145" r="13"/>
+      <rect x="188" y="141" width="15" height="9" rx="4"/>
+      <path d="M172,133 L178,117 L185,134 Z"/>
+      <!-- hombre, de espaldas -->
+      <circle cx="70" cy="26" r="15"/>
+      <rect x="63" y="40" width="14" height="8"/>
+      <path d="M45,48 Q70,40 95,48 L88,112 Q70,120 52,112 Z"/>
+      <path d="M52,112 L67,112 L64,182 L54,182 Z"/>
+      <path d="M73,112 L88,112 L90,182 L78,182 Z"/>
+      <!-- mujer, de espaldas -->
+      <ellipse cx="220" cy="25" rx="14" ry="16"/>
+      <rect x="214" y="39" width="12" height="8"/>
+      <path d="M202,47 L238,47 L256,182 L184,182 Z"/>
+    </g>
   </svg>
   <span class="kicker">Nos casamos</span>
   <h1 class="names">Ninis</h1>
@@ -337,29 +349,6 @@
   <p class="date-line"><span class="star">✦</span> 15 de enero de 2027 <span class="dot">·</span> 18:30 hrs <span class="star">✦</span></p>
   <span class="scroll-hint">Desliza ↓ (opcional)</span>
 </section>
-
-<!-- ============ GALERÍA ============ -->
-<section id="galeria">
-  <!-- <span class="eyebrow" style="text-align:center;display:block;">Recuerdos</span> -->
-  <h2 class="section-title">Recuerdos</h2>
-  <!-- <p class="lead">Un vistazo a nuestra historia. Toca cualquier foto para verla en grande.</p> -->
-
-  <div class="gallery-grid" id="gallery">
-    <!-- EDITAR: reemplaza cada src por tus propias fotos. Mantén las imágenes en una carpeta /fotos junto a este archivo. -->
-    <button class="gallery-item"><img src="fotos/foto-1.jpg" alt="Foto de los novios 1" loading="lazy"></button>
-    <button class="gallery-item"><img src="fotos/foto-2.jpg" alt="Foto de los novios 2" loading="lazy"></button>
-    <button class="gallery-item"><img src="fotos/foto-3.jpg" alt="Foto de los novios 3" loading="lazy"></button>
-    <button class="gallery-item"><img src="fotos/foto-4.jpg" alt="Foto de los novios 4" loading="lazy"></button>
-    <button class="gallery-item"><img src="fotos/foto-5.jpg" alt="Foto de los novios 5" loading="lazy"></button>
-    <button class="gallery-item"><img src="fotos/foto-6.jpg" alt="Foto de los novios 6" loading="lazy"></button>
-  </div>
-</section>
-
-<div class="lightbox" id="lightbox">
-  <button class="lightbox-close" id="lightbox-close" aria-label="Cerrar">✕</button>
-  <img src="" alt="" id="lightbox-img">
-</div>
-
 
 <!-- ============ DETALLES ============ -->
 <section id="detalles">
@@ -462,15 +451,15 @@
 </section>
 
 <!-- ============ MÚSICA ============ -->
-<!-- <section id="musica"> -->
-  <!-- <span class="eyebrow" style="text-align:center;display:block;">Ayúdanos a armar la fiesta</span> -->
-  <!-- <h2 class="section-title">Playlist colaborativa</h2> -->
-  <!-- <p class="lead">Agrega la canción que no puede faltar en la pista.</p> -->
-  <!-- <div class="music-wrap"> -->
-    <!-- <iframe src="https://open.spotify.com/ <div id="spotify-embed"></div> -->
-	<!-- <p class="music-fallback">¿No carga el reproductor? <a href="https://open.spotify.com/track/4131I9Y7U9QTLI4mAhpUTQ" target="_blank" rel="noopener">Escúchala directo en Spotify →</a></p> -->
-  <!-- </div> -->
-<!-- </section> -->
+<section id="musica">
+  <span class="eyebrow" style="text-align:center;display:block;">Ayúdanos a armar la fiesta</span>
+  <h2 class="section-title">Playlist colaborativa</h2>
+  <p class="lead">Agrega la canción que no puede faltar en la pista.</p>
+  <div class="music-wrap">
+    <div id="spotify-embed"></div>
+    <p class="music-fallback">¿No carga el reproductor? <a href="https://open.spotify.com/track/0CLkh97Wu6tiusLNShS8T1" target="_blank" rel="noopener">Escúchala directo en Spotify →</a></p>
+  </div>
+</section>
 
 <!-- ============ RSVP ============ -->
 <section id="rsvp">
@@ -537,6 +526,25 @@
     <div><span class="countdown-num" id="cd-sec">--</span><span class="countdown-label">Seg</span></div>
   </div>
 </section>
+
+<!-- ============ GALERÍA ============ -->
+<section id="galeria">
+  <h2 class="section-title">Recuerdos</h2>
+  <div class="gallery-grid" id="gallery">
+    <!-- EDITAR: reemplaza cada src por tus propias fotos. Mantén las imágenes en una carpeta /fotos junto a este archivo. -->
+    <button class="gallery-item"><img src="fotos/foto-1.jpg" alt="Foto de los novios 1" loading="lazy"></button>
+    <button class="gallery-item"><img src="fotos/foto-2.jpg" alt="Foto de los novios 2" loading="lazy"></button>
+    <button class="gallery-item"><img src="fotos/foto-3.jpg" alt="Foto de los novios 3" loading="lazy"></button>
+    <button class="gallery-item"><img src="fotos/foto-4.jpg" alt="Foto de los novios 4" loading="lazy"></button>
+    <button class="gallery-item"><img src="fotos/foto-5.jpg" alt="Foto de los novios 5" loading="lazy"></button>
+    <button class="gallery-item"><img src="fotos/foto-6.jpg" alt="Foto de los novios 6" loading="lazy"></button>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Cerrar">✕</button>
+  <img src="" alt="" id="lightbox-img">
+</div>
 
 
 <footer>
@@ -616,13 +624,40 @@
       var spans = r.querySelectorAll("span");
       return spans[0].textContent + ": " + spans[1].textContent;
     }).join("\n");
-    navigator.clipboard.writeText(text).then(function(){
-      document.getElementById("copy-msg").textContent = "Datos copiados ✓";
+
+    function showCopyMsg(msg){
+      document.getElementById("copy-msg").textContent = msg;
       setTimeout(function(){ document.getElementById("copy-msg").textContent = ""; }, 2500);
-    }).catch(function(){
-      document.getElementById("copy-msg").textContent = "No se pudo copiar, cópialos manualmente.";
-    });
+    }
+
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){
+        showCopyMsg("Datos copiados ✓");
+      }).catch(function(){
+        fallbackCopy(text, showCopyMsg);
+      });
+    } else {
+      fallbackCopy(text, showCopyMsg);
+    }
   });
+
+  function fallbackCopy(text, showCopyMsg){
+    // Funciona incluso si el navegador bloquea navigator.clipboard (ej. abriendo el archivo local sin https)
+    var textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    try{
+      document.execCommand("copy");
+      showCopyMsg("Datos copiados ✓");
+    }catch(err){
+      showCopyMsg("No se pudo copiar, cópialos manualmente.");
+    }
+    document.body.removeChild(textarea);
+  }
 
   /* ============ RSVP CONDITIONAL FIELDS ============ */
   var conditional = document.getElementById("conditional-fields");
@@ -686,7 +721,34 @@
   });
 
 })();
-var spotifyController = null; window.onSpotifyIframeApiReady = function(IFrameAPI){ var element = document.getElementById("spotify-embed"); var options = { uri: "spotify:track:0CLkh97Wu6tiusLNShS8T1", width: "100%", height: "152" }; IFrameAPI.createController(element, options, function(EmbedController){ spotifyController = EmbedController; }); }; document.getElementById("float-play-btn").addEventListener("click", function(){ if(spotifyController){ spotifyController.play(); } this.style.display = "none"; });
+/* ============ MÚSICA: reproducir en la primera interacción ============ */
+var spotifyController = null;
+var hasStartedMusic = false;
+
+window.onSpotifyIframeApiReady = function(IFrameAPI){
+  var element = document.getElementById("spotify-embed");
+  var options = { uri: "spotify:track:0CLkh97Wu6tiusLNShS8T1", width: "100%", height: "152" };
+  IFrameAPI.createController(element, options, function(EmbedController){
+    spotifyController = EmbedController;
+  });
+};
+
+function startMusicOnce(){
+  if(hasStartedMusic) return;
+  hasStartedMusic = true;
+  if(spotifyController){ spotifyController.play(); }
+  var floatBtn = document.getElementById("float-play-btn");
+  if(floatBtn){ floatBtn.style.display = "none"; }
+}
+
+// Los navegadores no permiten sonido automático sin que la persona interactúe primero.
+// Por eso la canción arranca apenas hay un primer toque, clic, scroll o tecla en la página.
+["click","touchstart","keydown","scroll"].forEach(function(evt){
+  document.addEventListener(evt, startMusicOnce, { once:true, passive:true });
+});
+
+var floatBtnEl = document.getElementById("float-play-btn");
+if(floatBtnEl){ floatBtnEl.addEventListener("click", startMusicOnce); }
 
 
 </script>
