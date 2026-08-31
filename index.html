@@ -91,11 +91,6 @@
   }
   .stamp-frame .edge-l{ left:0; }
   .stamp-frame .edge-r{ right:0; }
-  .stamp-frame::before{
-    content:"";
-    position:absolute; inset: var(--frame);
-    border: 1px solid rgba(43,38,32,.35);
-  }
 
   /* ============ HERO ============ */
   .hero{
@@ -135,12 +130,6 @@
     display:flex; align-items:center; gap:.6em; justify-content:center; flex-wrap:wrap;
   }
   .hero .date-line .dot{ color: var(--gold); }
-  .hero .scroll-hint{
-    position:absolute; bottom: 1.4rem; left:50%; transform: translateX(-50%);
-    font-size: .7rem; letter-spacing:.2em; text-transform:uppercase; color: var(--ink-soft);
-    animation: bob 2.4s ease-in-out infinite;
-  }
-  @keyframes bob{ 0%,100%{ transform: translate(-50%,0);} 50%{ transform: translate(-50%,6px);} }
 
   /* ============ GALLERY ============ */
   .gallery-grid{
@@ -298,11 +287,10 @@
     .details-row{ gap: 1.6rem; }
   }
 
-.float-play{ position: fixed; bottom: calc(var(--frame) + 16px); right: calc(var(--frame) + 16px); z-index: 250; background: var(--ink); color: var(--cream); border: none; border-radius: 999px; padding: .8em 1.3em; font-family: var(--font-sans); font-size: .85rem; font-weight: 500; cursor: pointer; box-shadow: 0 4px 14px rgba(43,38,32,.25); } .float-play:hover{ background: var(--sage-dark); }
+
 
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
-    .scroll-hint{ animation:none; }
     .gallery-item img{ transition:none; }
   }
 </style>
@@ -316,38 +304,41 @@
   <span class="edge-r"></span>
 </div>
 
-<button class="float-play" id="float-play-btn">♪ Reproducir canción</button>
 <!-- ============ HERO ============ -->
 <section class="hero" id="inicio">
   <svg class="silhouette" viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Silueta de la pareja de espaldas junto a su perrita">
     <g fill="#2B2620">
-      <!-- perrita, entre los dos -->
-      <path d="M115,150 Q98,138 105,120 Q110,137 122,151 Z"/>
-      <ellipse cx="145" cy="155" rx="32" ry="16"/>
-      <rect x="115" y="163" width="7" height="19" rx="2"/>
-      <rect x="127" y="163" width="7" height="19" rx="2"/>
-      <rect x="160" y="163" width="7" height="19" rx="2"/>
-      <rect x="172" y="163" width="7" height="19" rx="2"/>
-      <circle cx="180" cy="145" r="13"/>
-      <rect x="188" y="141" width="15" height="9" rx="4"/>
-      <path d="M172,133 L178,117 L185,134 Z"/>
+      <!-- perrita, flaca, entre los dos -->
+      <path d="M108,150 Q88,132 100,112 Q106,134 121,151 Z"/>
+      <ellipse cx="145" cy="155" rx="24" ry="12"/>
+      <circle cx="145" cy="150" r="2" fill="#C6A25E"/>
+      <rect x="122" y="163" width="6" height="20" rx="2"/>
+      <rect x="132" y="163" width="6" height="20" rx="2"/>
+      <rect x="156" y="163" width="6" height="20" rx="2"/>
+      <rect x="166" y="163" width="6" height="20" rx="2"/>
+      <circle cx="175" cy="147" r="11"/>
+      <rect x="183" y="143" width="14" height="7" rx="3"/>
+      <path d="M165,131 L170,113 L177,131 Z"/>
+      <path d="M173,132 L177,119 L182,131 Z"/>
       <!-- hombre, de espaldas -->
       <circle cx="70" cy="26" r="15"/>
       <rect x="63" y="40" width="14" height="8"/>
-      <path d="M45,48 Q70,40 95,48 L88,112 Q70,120 52,112 Z"/>
+      <path d="M45,48 Q58,44 70,44 Q82,44 95,48 L88,60 Q70,64 52,60 Z"/>
+      <path d="M45,60 Q70,52 95,60 L88,112 Q70,120 52,112 Z"/>
+      <rect x="40" y="55" width="7" height="34" rx="3"/>
+      <rect x="93" y="55" width="7" height="34" rx="3"/>
       <path d="M52,112 L67,112 L64,182 L54,182 Z"/>
       <path d="M73,112 L88,112 L90,182 L78,182 Z"/>
       <!-- mujer, de espaldas -->
       <ellipse cx="220" cy="25" rx="14" ry="16"/>
       <rect x="214" y="39" width="12" height="8"/>
-      <path d="M202,47 L238,47 L256,182 L184,182 Z"/>
+      <path d="M202,47 Q220,42 238,47 L232,90 Q245,120 256,182 L184,182 Q195,120 208,90 Z"/>
     </g>
   </svg>
   <span class="kicker">Nos casamos</span>
   <h1 class="names">Ninis</h1>
   <p class="tagline">Una historia que decidimos seguir escribiendo juntos, y nos encantaría que la celebren con nosotros. (Frase a cambiar)</p>
   <p class="date-line"><span class="star">✦</span> 15 de enero de 2027 <span class="dot">·</span> 18:30 hrs <span class="star">✦</span></p>
-  <span class="scroll-hint">Desliza ↓ (opcional)</span>
 </section>
 
 <!-- ============ DETALLES ============ -->
@@ -452,9 +443,9 @@
 
 <!-- ============ MÚSICA ============ -->
 <section id="musica">
-  <span class="eyebrow" style="text-align:center;display:block;">Ayúdanos a armar la fiesta</span>
-  <h2 class="section-title">Playlist colaborativa</h2>
-  <p class="lead">Agrega la canción que no puede faltar en la pista.</p>
+  <span class="eyebrow" style="text-align:center;display:block;">Un detalle especial</span>
+  <h2 class="section-title">Nuestra canción</h2>
+  <p class="lead">La que sonará mientras te preparas para acompañarnos.</p>
   <div class="music-wrap">
     <div id="spotify-embed"></div>
     <p class="music-fallback">¿No carga el reproductor? <a href="https://open.spotify.com/track/0CLkh97Wu6tiusLNShS8T1" target="_blank" rel="noopener">Escúchala directo en Spotify →</a></p>
@@ -721,34 +712,38 @@
   });
 
 })();
-/* ============ MÚSICA: reproducir en la primera interacción ============ */
+/* ============ MÚSICA: reproducir desde el inicio, en la primera interacción ============ */
 var spotifyController = null;
-var hasStartedMusic = false;
+var userWantsMusic = false;
+var hasPlayedMusic = false;
+
+function playFromStart(){
+  if(hasPlayedMusic || !spotifyController) return;
+  hasPlayedMusic = true;
+  spotifyController.seek(0);
+  spotifyController.play();
+}
 
 window.onSpotifyIframeApiReady = function(IFrameAPI){
   var element = document.getElementById("spotify-embed");
   var options = { uri: "spotify:track:0CLkh97Wu6tiusLNShS8T1", width: "100%", height: "152" };
   IFrameAPI.createController(element, options, function(EmbedController){
     spotifyController = EmbedController;
+    if(userWantsMusic){ playFromStart(); }
   });
 };
 
-function startMusicOnce(){
-  if(hasStartedMusic) return;
-  hasStartedMusic = true;
-  if(spotifyController){ spotifyController.play(); }
-  var floatBtn = document.getElementById("float-play-btn");
-  if(floatBtn){ floatBtn.style.display = "none"; }
+function requestMusicStart(){
+  if(userWantsMusic) return;
+  userWantsMusic = true;
+  playFromStart(); // si el reproductor ya cargó, arranca al toque; si no, arranca apenas termine de cargar
 }
 
 // Los navegadores no permiten sonido automático sin que la persona interactúe primero.
 // Por eso la canción arranca apenas hay un primer toque, clic, scroll o tecla en la página.
 ["click","touchstart","keydown","scroll"].forEach(function(evt){
-  document.addEventListener(evt, startMusicOnce, { once:true, passive:true });
+  document.addEventListener(evt, requestMusicStart, { once:true, passive:true });
 });
-
-var floatBtnEl = document.getElementById("float-play-btn");
-if(floatBtnEl){ floatBtnEl.addEventListener("click", startMusicOnce); }
 
 
 </script>
