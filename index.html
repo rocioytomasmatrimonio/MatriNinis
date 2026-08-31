@@ -247,10 +247,11 @@
   .bank-details .row{ display:flex; justify-content:space-between; gap:1rem; }
   .copy-msg{ font-size:.78rem; color: var(--sage-dark); margin-top:.5rem; min-height:1em; }
 
-  /* ============ MUSIC ============ */
   .music-wrap{ max-width: 480px; margin: 0 auto; text-align:center; }
   .music-wrap iframe{ border-radius: 10px; width:100%; }
   .music-fallback{ margin-top:1.2rem; font-size:.9rem; color: var(--ink-soft); }
+
+  /* ============ MUSIC ============ */
 
   /* ============ RSVP ============ */
   form.rsvp{ max-width: 560px; margin: 0 auto; }
@@ -712,7 +713,8 @@
   });
 
 })();
-/* ============ MÚSICA: reproducir desde el inicio, en la primera interacción ============ */
+
+/* ============ MÚSICA: reproducir desde el inicio, con un gatillo real ============ */
 var spotifyController = null;
 var userWantsMusic = false;
 var hasPlayedMusic = false;
@@ -736,16 +738,21 @@ window.onSpotifyIframeApiReady = function(IFrameAPI){
 function requestMusicStart(){
   if(userWantsMusic) return;
   userWantsMusic = true;
-  playFromStart(); // si el reproductor ya cargó, arranca al toque; si no, arranca apenas termine de cargar
+  playFromStart();
 }
 
-// Los navegadores no permiten sonido automático sin que la persona interactúe primero.
-// Por eso la canción arranca apenas hay un primer toque, clic, scroll o tecla en la página.
-["click","touchstart","keydown","scroll"].forEach(function(evt){
-  document.addEventListener(evt, requestMusicStart, { once:true, passive:true });
+// Esperamos a que la página termine de cargar, y damos un pequeño margen extra,
+// antes de "armar" los gatillos: algunos navegadores restauran la posición de scroll
+// al recargar la página y eso dispara un evento de scroll falso, sin que la persona
+// haya hecho nada — eso gastaba el disparador antes de que hubiera un gesto real.
+// Por eso usamos "wheel" (scroll físico real) en vez de "scroll".
+window.addEventListener("load", function(){
+  setTimeout(function(){
+    ["click","touchend","keydown","wheel"].forEach(function(evt){
+      document.addEventListener(evt, requestMusicStart, { once:true, passive:true });
+    });
+  }, 400);
 });
-
-
 </script>
 <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 </body>
