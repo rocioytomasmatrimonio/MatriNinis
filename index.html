@@ -246,8 +246,8 @@
   .bank-details .row{ display:flex; justify-content:space-between; gap:1rem; }
   .copy-msg{ font-size:.78rem; color: var(--sage-dark); margin-top:.5rem; min-height:1em; }
 
-  .music-wrap{ max-width: 480px; margin: 0 auto; text-align:center; }
-  .music-wrap iframe{ border-radius: 10px; width:100%; }
+  .music-wrap{ max-width: 280px; margin: 0 auto 1.4rem; padding: 0 var(--frame); }
+  .music-wrap iframe{ border-radius: 8px; width:100%; display:block; }
   .music-fallback{ margin-top:1.2rem; font-size:.9rem; color: var(--ink-soft); }
 
   /* ============ MUSIC ============ */
@@ -441,17 +441,6 @@
   </div>
 </section>
 
-<!-- ============ MÚSICA ============ -->
-<section id="musica">
-  <span class="eyebrow" style="text-align:center;display:block;">Un detalle especial</span>
-  <h2 class="section-title">Nuestra canción</h2>
-  <p class="lead">La que sonará mientras te preparas para acompañarnos.</p>
-  <div class="music-wrap">
-    <div id="spotify-embed"></div>
-    <p class="music-fallback">¿No carga el reproductor? <a href="https://open.spotify.com/track/0CLkh97Wu6tiusLNShS8T1" target="_blank" rel="noopener">Escúchala directo en Spotify →</a></p>
-  </div>
-</section>
-
 <!-- ============ RSVP ============ -->
 <section id="rsvp">
 <!-- <span class="eyebrow" style="text-align:center;display:block;">Confírmanos</span> -->
@@ -542,6 +531,10 @@
   <div class="fnames">Ninis</div>
   <div class="fdate">15 · 01 · 2027 — Puerto La Reserva</div>
 </footer>
+
+<div class="music-wrap">
+  <div id="spotify-embed"></div>
+</div>
 
 <script>
 (function(){
@@ -727,7 +720,7 @@ function playFromStart(){
 
 window.onSpotifyIframeApiReady = function(IFrameAPI){
   var element = document.getElementById("spotify-embed");
-  var options = { uri: "spotify:track:0CLkh97Wu6tiusLNShS8T1", width: "100%", height: "152" };
+  var options = { uri: "spotify:track:0CLkh97Wu6tiusLNShS8T1", width: "100%", height: "80" };
   IFrameAPI.createController(element, options, function(EmbedController){
     spotifyController = EmbedController;
     if(userWantsMusic){ playFromStart(); }
