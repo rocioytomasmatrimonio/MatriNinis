@@ -59,7 +59,6 @@
   .lead{ text-align:center; max-width: 46ch; margin: 0 auto 2.4rem; color: var(--ink-soft); font-size: 1.02rem; }
 
   section{ padding: 5.2rem 0; max-width: var(--maxw); margin: 0 auto; }
-  section + section{ border-top: 1px solid rgba(43,38,32,.1); }
 
   .star{ color: var(--gold); display:inline-block; }
 
@@ -76,7 +75,7 @@
     background-color: transparent;
   }
   .stamp-frame .edge-t, .stamp-frame .edge-b{
-    left: var(--frame); right: var(--frame); height: var(--frame);
+    left: 0; right: 0; height: var(--frame);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='16'%3E%3Cpath d='M0,8 Q10,0 20,8 T40,8' fill='none' stroke='%232B2620' stroke-width='1.6'/%3E%3C/svg%3E");
     background-size: 40px 16px;
     background-position: center;
@@ -443,7 +442,7 @@
 </section>
 
 <!-- ============ MÚSICA ============ -->
-<section id="musica">
+<section id="musica" style="display:none;">
   <span class="eyebrow" style="text-align:center;display:block;">Un detalle especial</span>
   <h2 class="section-title">Nuestra canción</h2>
   <p class="lead">La que sonará mientras te preparas para acompañarnos.</p>
