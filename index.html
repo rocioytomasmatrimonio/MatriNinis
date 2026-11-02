@@ -121,7 +121,6 @@
     cursor: pointer; overflow:hidden; border-radius: 3px;
     aspect-ratio: 1/1; position:relative;
   }
-  .gallery-item:last-child{ grid-column: 2; }
   .gallery-item img{ width:100%; height:100%; object-fit: cover; transition: transform .5s ease; }
   .gallery-item:hover img{ transform: scale(1.06); }
 
@@ -203,10 +202,11 @@
   .swatches{ display:flex; justify-content:center; gap: .9rem; margin: 1.6rem 0 2rem; flex-wrap: wrap; }
   .swatch{ width: 46px; height:46px; border-radius:50%; border:1px solid rgba(43,38,32,.2); }
 
-  .cards-3{ display:grid; grid-template-columns: repeat(3,1fr); gap: 1.4rem; }
+  .cards-3{ display:grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 1.4rem; align-items: stretch; }
   .rec-card{
     background: var(--cream-soft); border:1px solid rgba(43,38,32,.1); border-radius: 6px;
     padding: 1.8rem 1.4rem; text-align:center;
+    display:flex; flex-direction:column; justify-content:center;
   }
   .rec-card .icon{ font-size:1.6rem; margin-bottom:.7rem; color: var(--sage-dark); }
   .rec-card h3{ font-size:1.05rem; margin-bottom:.5rem; }
@@ -261,7 +261,6 @@
   @media (max-width: 720px){
     :root{ --frame: 10px; }
     .gallery-grid{ grid-template-columns: repeat(2,1fr); }
-    .gallery-item:last-child{ grid-column: auto; }
     .cards-3{ grid-template-columns: 1fr; }
     .gift-options{ grid-template-columns: 1fr; }
     section{ padding: 3.6rem 1.1rem; }
@@ -347,12 +346,6 @@
   </div>
 </section>
 
-<!-- ============ DRESS CODE ============ -->
-<section id="dress-code" style="text-align:center;">
-  <h2 class="section-title">Dress code</h2>
-  <p class="lead">Formal / Elegante. Nos encantaría ver tonos tierra, crema y verde salvia — evita el blanco, marfil y beige muy claro, reservados para la novia.</p>
-</section>
-
 <!-- ============ RECOMENDACIONES ============ -->
 <section id="recomendaciones">
   <h2 class="section-title">Recomendaciones</h2>
@@ -360,7 +353,7 @@
     <div class="rec-card">
       <div class="icon">🚖</div>
       <h3>Estacionamiento</h3>
-      <p>El lugar cuenta con estacionamiento para invitados e invitadas. Te recomendamos llegar con unos minutos de anticipación ya que es viernes! 
+      <p>El lugar cuenta con estacionamiento para invitados e invitadas. Te recomendamos llegar con unos minutos de anticipación ya que es viernes!
 		  Si no quieres preocuparte de la vuelta, te dejamos algunos angelitos (recuerda que algunos seguros de auto incluyen este servicio, nosotros ya lo hemos usado).
 		  Además, puedes solicitar un servicio de transporte como Cabify o Uber ya que estamos a 20 minutos del Túnel San Cristóbal o La Pirámide.</p>
     </div>
@@ -368,6 +361,11 @@
       <div class="icon">☀️</div>
       <h3>Clima</h3>
       <p>Enero es temporada de verano hot. Puedes traer tus lentes y abanico facheros</p>
+    </div>
+    <div class="rec-card">
+      <div class="icon">👗</div>
+      <h3>Dress code</h3>
+      <p>Formal / Elegante. Nos encantaría ver tonos tierra, crema y verde salvia — evita el blanco, marfil y beige muy claro, reservados para la novia.</p>
     </div>
   </div>
 </section>
@@ -390,11 +388,11 @@
         <div class="row"><span>Correo</span><span>rocioytomasmatrimonio@gmail.com</span></div>
         <button class="btn" id="copy-bank" style="margin-top:1rem;width:100%;justify-content:center;">Copiar datos</button>
         <div class="copy-msg" id="copy-msg"></div>
+      </div>
+    </div>
     <div class="gift-card">
       <h3>Lista de novios</h3>
       <a class="btn outline" href="https://www.noviosparis.cl/home/couple-catalog/6972187" id="registry-link" target="_blank" rel="noopener" style="margin-top:1rem;">Ver lista de regalos →</a>
-    </div>	  
-      </div>
     </div>
   </div>
 </section>
