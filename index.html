@@ -709,14 +709,32 @@
 
 /* ============ MÚSICA: reproducir desde el inicio, con un gatillo real ============ */
 var spotifyController = null;
-var userWantsMusic = false;
-var hasPlayedMusic = false;
+var musicStarted = false;
+var musicAttempts = 0;
+var lastMusicAttempt = 0;
+var MUSIC_EVENTS = ["click","keydown","wheel"];
+var MUSIC_MAX_ATTEMPTS = 5;
 
-function playFromStart(){
-  if(hasPlayedMusic || !spotifyController) return;
-  hasPlayedMusic = true;
+function stopMusicTriggers(){
+  MUSIC_EVENTS.forEach(function(evt){ document.removeEventListener(evt, requestMusicStart); });
+}
+
+// Un intento bloqueado por el navegador no gasta el gatillo: se reintenta en el
+// siguiente gesto hasta que Spotify confirme que está sonando.
+function requestMusicStart(){
+  if(musicStarted || !spotifyController) return;
+  var now = Date.now();
+  if(now - lastMusicAttempt < 1500) return;
+  lastMusicAttempt = now;
+  musicAttempts++;
   spotifyController.seek(0);
   spotifyController.play();
+  if(musicAttempts >= MUSIC_MAX_ATTEMPTS){ stopMusicTriggers(); }
+}
+
+function markMusicStarted(){
+  musicStarted = true;
+  stopMusicTriggers();
 }
 
 window.onSpotifyIframeApiReady = function(IFrameAPI){
@@ -724,25 +742,19 @@ window.onSpotifyIframeApiReady = function(IFrameAPI){
   var options = { uri: "spotify:track:0CLkh97Wu6tiusLNShS8T1", width: "100%", height: "80" };
   IFrameAPI.createController(element, options, function(EmbedController){
     spotifyController = EmbedController;
-    if(userWantsMusic){ playFromStart(); }
+    EmbedController.addListener("playback_started", markMusicStarted);
+    EmbedController.addListener("playback_update", function(e){
+      if(e && e.data && !e.data.isPaused && !e.data.isBuffering && e.data.position > 0){ markMusicStarted(); }
+    });
   });
 };
 
-function requestMusicStart(){
-  if(userWantsMusic) return;
-  userWantsMusic = true;
-  playFromStart();
-}
-
-// Esperamos a que la página termine de cargar, y damos un pequeño margen extra,
-// antes de "armar" los gatillos: algunos navegadores restauran la posición de scroll
-// al recargar la página y eso dispara un evento de scroll falso, sin que la persona
-// haya hecho nada — eso gastaba el disparador antes de que hubiera un gesto real.
-// Por eso usamos "wheel" (scroll físico real) en vez de "scroll".
+// "wheel" es scroll físico real en computador. En celular la música parte con el
+// primer toque: los navegadores no aceptan el scroll con el dedo como permiso para sonar.
 window.addEventListener("load", function(){
   setTimeout(function(){
-    ["click","touchend","keydown","wheel"].forEach(function(evt){
-      document.addEventListener(evt, requestMusicStart, { once:true, passive:true });
+    MUSIC_EVENTS.forEach(function(evt){
+      document.addEventListener(evt, requestMusicStart, { passive:true });
     });
   }, 400);
 });
