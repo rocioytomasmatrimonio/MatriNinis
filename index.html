@@ -130,8 +130,6 @@
     background: var(--cream);
   }
 
-  .star{ color: var(--gold); display:inline-block; }
-
   /* ============ HERO ============ */
   .hero{
     display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
@@ -156,7 +154,7 @@
   .hero .names .amp{ font-family: var(--font-sans); font-weight: 300; }
   .tagline-block{
     max-width: 56ch;
-    margin: 0 auto var(--sp-md);
+    margin: 0 auto;
   }
   .hero .tagline{
     font-family: var(--font-serif);
@@ -166,16 +164,6 @@
     margin: 0 0 var(--sp-md);
   }
   .hero .tagline:last-child{ margin-bottom: 0; }
-  .hero .date-line{
-    font-family: var(--font-serif);
-    font-size: min(var(--fs-md), calc(var(--fw) * .035));
-    font-weight: 400;
-    color: var(--sage-dark);
-    margin: 0;
-    white-space: nowrap;
-    display:flex; align-items:center; gap:.45em; justify-content:center; flex-wrap:nowrap;
-  }
-  .hero .date-line .dot{ color: var(--gold); }
 
   /* ============ GALLERY ============ */
   .gallery-grid{
@@ -383,7 +371,6 @@
     <p class="tagline">Se viene una celebración llena de amor, buenos brindis, risas y baile hasta que no podamos más.</p>
     <p class="tagline">¡Nos encantaría que siguieras siendo parte de nuestra historia!</p>
   </div>
-  <p class="date-line"><span class="star">✦</span> 15 de enero de 2027 <span class="dot">·</span> 18:30 hrs <span class="star">✦</span></p>
 </section>
 
 <!-- ============ DETALLES ============ -->
@@ -733,6 +720,7 @@
 var spotifyController = null;
 var invitationOpened = false;
 var musicStarted = false;
+var musicRewound = false;
 var musicAttempts = 0;
 var lastMusicAttempt = 0;
 var MUSIC_EVENTS = ["click","keydown","wheel"];
@@ -751,7 +739,6 @@ function tryMusic(force){
   if(musicAttempts >= MUSIC_MAX_ATTEMPTS) return;
   lastMusicAttempt = now;
   musicAttempts++;
-  spotifyController.seek(0);
   spotifyController.play();
   if(musicAttempts >= MUSIC_MAX_ATTEMPTS){ stopMusicTriggers(); }
 }
@@ -769,7 +756,15 @@ window.onSpotifyIframeApiReady = function(IFrameAPI){
     spotifyController = EmbedController;
     EmbedController.addListener("playback_started", markMusicStarted);
     EmbedController.addListener("playback_update", function(e){
-      if(e && e.data && !e.data.isPaused && !e.data.isBuffering && e.data.position > 0){ markMusicStarted(); }
+      if(e && e.data && !e.data.isPaused && !e.data.isBuffering && e.data.position > 0){
+        markMusicStarted();
+        // El audio puede tardar en oírse aunque la canción ya avanzó: al confirmar que
+        // está sonando se vuelve una vez al segundo 0 para no perder el comienzo.
+        if(!musicRewound){
+          musicRewound = true;
+          EmbedController.seek(0);
+        }
+      }
     });
     // Si tocaron "Abrir invitación" antes de que Spotify estuviera listo
     EmbedController.addListener("ready", function(){ if(musicAttempts === 0){ tryMusic(true); } });
