@@ -15,8 +15,6 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Ilustración de Rocío y Tomás sentados con su perrita">
-<link rel="preconnect" href="https://open.spotify.com">
-<link rel="preload" as="script" href="https://open.spotify.com/embed/iframe-api/v1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Playfair+Display:wght@400;600&family=Jost:wght@300;500&display=swap" rel="stylesheet">
@@ -285,8 +283,6 @@
   .copy-msg{ font-size:var(--fs-xs); color: var(--sage-dark); margin-top: var(--sp-sm); text-align:center; }
   .copy-msg:empty{ display:none; }
 
-  .music-wrap{ max-width: 280px; margin: 0 auto var(--sp-section); padding: 0 .25rem; }
-  .music-wrap iframe{ border-radius: 8px; width:100%; display:block; }
   .music-fallback{ margin-top:1.2rem; font-size:var(--fs-sm); color: var(--ink-soft); }
 
   /* ============ RSVP ============ */
@@ -337,10 +333,6 @@
   }
   .intro.closing{ opacity: 0; pointer-events: none; }
   .intro[hidden]{ display: none; }
-  .intro[disabled]{ cursor: progress; }
-  /* Mientras está la entrada, el reproductor carga dentro de la pantalla, sin verse:
-     algunos celulares postergan lo que está fuera de la vista */
-  body.intro-on .music-wrap{ position: absolute; top: 0; left: 0; right: 0; opacity: .01; pointer-events: none; z-index: -1; }
   .intro .btn{ background: var(--cream); font-size: var(--fs-md); }
   .intro:focus{ outline: none; }
   .intro:focus-visible .btn{ outline: 2px solid var(--sage-dark); outline-offset: 2px; }
@@ -356,7 +348,7 @@
 <body class="intro-on">
 
 <!-- ============ PANTALLA DE ENTRADA: toda la pantalla es el botón ============ -->
-<button type="button" class="intro" id="intro" disabled><span class="btn" id="intro-label">Cargando…</span></button>
+<button type="button" class="intro" id="intro"><span class="btn">Abrir invitación 🔊</span></button>
 
 <!-- ============ MARCO DECORATIVO FIJO ============ -->
 <div class="deco-frame" aria-hidden="true">
@@ -541,9 +533,8 @@
   <div class="fdate"><span>15 · 01 · 2027</span><span class="fplace">Puerto La Reserva</span></div>
 </footer>
 
-<div class="music-wrap">
-  <div id="spotify-embed"></div>
-</div>
+<!-- La canción: cancion.mp3 debe estar en la misma carpeta que este archivo -->
+<audio id="bg-music" src="cancion.mp3" preload="auto" playsinline></audio>
 
 </div><!-- /#page-scroll -->
 
@@ -722,96 +713,50 @@
 
 })();
 
-/* ============ MÚSICA: reproducir desde el inicio, con un gatillo real ============ */
-var spotifyController = null;
-var invitationOpened = false;
-var musicStarted = false;
-var musicRewound = false;
-var musicAttempts = 0;
-var lastMusicAttempt = 0;
-var MUSIC_EVENTS = ["click","keydown","wheel"];
-var MUSIC_MAX_ATTEMPTS = 5;
-
-function stopMusicTriggers(){
-  MUSIC_EVENTS.forEach(function(evt){ document.removeEventListener(evt, requestMusicStart); });
-}
-
-// La música solo parte después de abrir la invitación. Si el navegador bloquea el
-// intento, se reintenta en el siguiente gesto hasta que Spotify confirme que suena.
-function tryMusic(force){
-  if(!invitationOpened || musicStarted || !spotifyController) return;
-  var now = Date.now();
-  if(!force && now - lastMusicAttempt < 1500) return;
-  if(musicAttempts >= MUSIC_MAX_ATTEMPTS) return;
-  lastMusicAttempt = now;
-  musicAttempts++;
-  spotifyController.play();
-  if(musicAttempts >= MUSIC_MAX_ATTEMPTS){ stopMusicTriggers(); }
-}
-function requestMusicStart(){ tryMusic(false); }
-
-function enableIntro(){
-  var intro = document.getElementById("intro");
-  if(!intro.disabled) return;
-  intro.disabled = false;
-  document.getElementById("intro-label").textContent = "Abrir invitación 🔊";
-}
-
-function markMusicStarted(){
-  musicStarted = true;
-  stopMusicTriggers();
-}
-
-window.onSpotifyIframeApiReady = function(IFrameAPI){
-  var element = document.getElementById("spotify-embed");
-  var options = { uri: "spotify:track:0CLkh97Wu6tiusLNShS8T1", width: "100%", height: "80" };
-  IFrameAPI.createController(element, options, function(EmbedController){
-    spotifyController = EmbedController;
-    var iframe = document.querySelector(".music-wrap iframe");
-    if(iframe){ iframe.loading = "eager"; }
-    EmbedController.addListener("playback_started", markMusicStarted);
-    EmbedController.addListener("playback_update", function(e){
-      if(e && e.data && !e.data.isPaused && !e.data.isBuffering && e.data.position > 0){
-        markMusicStarted();
-        // El audio puede tardar en oírse aunque la canción ya avanzó: al confirmar que
-        // está sonando se vuelve una vez al segundo 0 para no perder el comienzo.
-        if(!musicRewound){
-          musicRewound = true;
-          EmbedController.seek(0);
-        }
-      }
-    });
-    // Si tocaron "Abrir invitación" antes de que Spotify estuviera listo
-    EmbedController.addListener("ready", function(){
-      enableIntro();
-      if(musicAttempts === 0){ tryMusic(true); }
-    });
-    if(invitationOpened && musicAttempts === 0){ tryMusic(true); }
-  });
-};
-
-MUSIC_EVENTS.forEach(function(evt){
-  document.addEventListener(evt, requestMusicStart, { passive:true });
-});
-
-/* ============ PANTALLA DE ENTRADA ============ */
+/* ============ ENTRADA Y MÚSICA ============ */
 (function(){
   var intro = document.getElementById("intro");
   var content = document.getElementById("page-scroll");
+  var music = document.getElementById("bg-music");
+  var RETRY_EVENTS = ["click","keydown"];
+  var pausedByHiding = false;
+
   content.inert = true;
-  // Si Spotify no responde, la invitación igual se puede abrir
-  setTimeout(enableIntro, 6000);
-  intro.addEventListener("click", function(){
-    invitationOpened = true;
+
+  function stopRetrying(){
+    RETRY_EVENTS.forEach(function(evt){ document.removeEventListener(evt, retryMusic); });
+  }
+  function retryMusic(){
+    music.play().then(stopRetrying).catch(function(){});
+  }
+
+  intro.addEventListener("click", function(event){
+    event.stopPropagation();
     content.inert = false;
     content.scrollTop = 0;
     document.body.classList.remove("intro-on");
     intro.classList.add("closing");
     setTimeout(function(){ intro.hidden = true; }, 650);
-    tryMusic(true);
+
+    // Debe llamarse dentro del toque: es lo que autoriza el sonido en el celular.
+    // Si el navegador lo bloquea, se reintenta en el siguiente toque.
+    music.currentTime = 0;
+    music.play().catch(function(){
+      RETRY_EVENTS.forEach(function(evt){ document.addEventListener(evt, retryMusic); });
+    });
+  });
+
+  // Se detiene al salir de la invitación o bloquear el teléfono, y sigue al volver.
+  document.addEventListener("visibilitychange", function(){
+    if(document.hidden){
+      pausedByHiding = !music.paused;
+      music.pause();
+    } else if(pausedByHiding){
+      pausedByHiding = false;
+      music.play().catch(function(){});
+    }
   });
 })();
 </script>
-<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 </body>
 </html>
