@@ -15,6 +15,8 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Ilustración de Rocío y Tomás sentados con su perrita">
+<link rel="preconnect" href="https://open.spotify.com">
+<link rel="preload" as="script" href="https://open.spotify.com/embed/iframe-api/v1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Playfair+Display:wght@400;600&family=Jost:wght@300;500&display=swap" rel="stylesheet">
@@ -335,6 +337,10 @@
   }
   .intro.closing{ opacity: 0; pointer-events: none; }
   .intro[hidden]{ display: none; }
+  .intro[disabled]{ cursor: progress; }
+  /* Mientras está la entrada, el reproductor carga dentro de la pantalla, sin verse:
+     algunos celulares postergan lo que está fuera de la vista */
+  body.intro-on .music-wrap{ position: absolute; top: 0; left: 0; right: 0; opacity: .01; pointer-events: none; z-index: -1; }
   .intro .btn{ background: var(--cream); font-size: var(--fs-md); }
   .intro:focus{ outline: none; }
   .intro:focus-visible .btn{ outline: 2px solid var(--sage-dark); outline-offset: 2px; }
@@ -350,7 +356,7 @@
 <body class="intro-on">
 
 <!-- ============ PANTALLA DE ENTRADA: toda la pantalla es el botón ============ -->
-<button type="button" class="intro" id="intro"><span class="btn">Abrir invitación 🔊</span></button>
+<button type="button" class="intro" id="intro" disabled><span class="btn" id="intro-label">Cargando…</span></button>
 
 <!-- ============ MARCO DECORATIVO FIJO ============ -->
 <div class="deco-frame" aria-hidden="true">
@@ -744,6 +750,13 @@ function tryMusic(force){
 }
 function requestMusicStart(){ tryMusic(false); }
 
+function enableIntro(){
+  var intro = document.getElementById("intro");
+  if(!intro.disabled) return;
+  intro.disabled = false;
+  document.getElementById("intro-label").textContent = "Abrir invitación 🔊";
+}
+
 function markMusicStarted(){
   musicStarted = true;
   stopMusicTriggers();
@@ -754,6 +767,8 @@ window.onSpotifyIframeApiReady = function(IFrameAPI){
   var options = { uri: "spotify:track:0CLkh97Wu6tiusLNShS8T1", width: "100%", height: "80" };
   IFrameAPI.createController(element, options, function(EmbedController){
     spotifyController = EmbedController;
+    var iframe = document.querySelector(".music-wrap iframe");
+    if(iframe){ iframe.loading = "eager"; }
     EmbedController.addListener("playback_started", markMusicStarted);
     EmbedController.addListener("playback_update", function(e){
       if(e && e.data && !e.data.isPaused && !e.data.isBuffering && e.data.position > 0){
@@ -767,7 +782,10 @@ window.onSpotifyIframeApiReady = function(IFrameAPI){
       }
     });
     // Si tocaron "Abrir invitación" antes de que Spotify estuviera listo
-    EmbedController.addListener("ready", function(){ if(musicAttempts === 0){ tryMusic(true); } });
+    EmbedController.addListener("ready", function(){
+      enableIntro();
+      if(musicAttempts === 0){ tryMusic(true); }
+    });
     if(invitationOpened && musicAttempts === 0){ tryMusic(true); }
   });
 };
@@ -781,6 +799,8 @@ MUSIC_EVENTS.forEach(function(evt){
   var intro = document.getElementById("intro");
   var content = document.getElementById("page-scroll");
   content.inert = true;
+  // Si Spotify no responde, la invitación igual se puede abrir
+  setTimeout(enableIntro, 6000);
   intro.addEventListener("click", function(){
     invitationOpened = true;
     content.inert = false;
