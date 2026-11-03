@@ -334,13 +334,35 @@
     .gallery-item{ flex-basis: calc((100% - var(--sp-sm)) / 2); }
   }
 
+  /* ============ PANTALLA DE ENTRADA ============ */
+  .deco-frame, #page-scroll{ transition: filter .6s ease; }
+  body.intro-on .deco-frame, body.intro-on #page-scroll{ filter: blur(6px); }
+  .intro{
+    position: fixed; inset: 0; z-index: 400;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0; padding: var(--sp-md); border: 0; cursor: pointer;
+    background: rgba(251,246,240,.3); color: inherit; font: inherit;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity .6s ease;
+  }
+  .intro.closing{ opacity: 0; pointer-events: none; }
+  .intro[hidden]{ display: none; }
+  .intro .btn{ background: var(--cream); font-size: var(--fs-md); }
+  .intro:focus{ outline: none; }
+  .intro:focus-visible .btn{ outline: 2px solid var(--sage-dark); outline-offset: 2px; }
+
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
+    .deco-frame, #page-scroll, .intro{ transition: none; }
     .gallery-item img{ transition:none; }
   }
 </style>
+<noscript><style>.intro{ display:none; } body.intro-on .deco-frame, body.intro-on #page-scroll{ filter:none; }</style></noscript>
 </head>
-<body>
+<body class="intro-on">
+
+<!-- ============ PANTALLA DE ENTRADA: toda la pantalla es el botón ============ -->
+<button type="button" class="intro" id="intro"><span class="btn">Abrir invitación 🔊</span></button>
 
 <!-- ============ MARCO DECORATIVO FIJO ============ -->
 <div class="deco-frame" aria-hidden="true">
@@ -709,6 +731,7 @@
 
 /* ============ MÚSICA: reproducir desde el inicio, con un gatillo real ============ */
 var spotifyController = null;
+var invitationOpened = false;
 var musicStarted = false;
 var musicAttempts = 0;
 var lastMusicAttempt = 0;
@@ -719,18 +742,20 @@ function stopMusicTriggers(){
   MUSIC_EVENTS.forEach(function(evt){ document.removeEventListener(evt, requestMusicStart); });
 }
 
-// Un intento bloqueado por el navegador no gasta el gatillo: se reintenta en el
-// siguiente gesto hasta que Spotify confirme que está sonando.
-function requestMusicStart(){
-  if(musicStarted || !spotifyController) return;
+// La música solo parte después de abrir la invitación. Si el navegador bloquea el
+// intento, se reintenta en el siguiente gesto hasta que Spotify confirme que suena.
+function tryMusic(force){
+  if(!invitationOpened || musicStarted || !spotifyController) return;
   var now = Date.now();
-  if(now - lastMusicAttempt < 1500) return;
+  if(!force && now - lastMusicAttempt < 1500) return;
+  if(musicAttempts >= MUSIC_MAX_ATTEMPTS) return;
   lastMusicAttempt = now;
   musicAttempts++;
   spotifyController.seek(0);
   spotifyController.play();
   if(musicAttempts >= MUSIC_MAX_ATTEMPTS){ stopMusicTriggers(); }
 }
+function requestMusicStart(){ tryMusic(false); }
 
 function markMusicStarted(){
   musicStarted = true;
@@ -746,18 +771,31 @@ window.onSpotifyIframeApiReady = function(IFrameAPI){
     EmbedController.addListener("playback_update", function(e){
       if(e && e.data && !e.data.isPaused && !e.data.isBuffering && e.data.position > 0){ markMusicStarted(); }
     });
+    // Si tocaron "Abrir invitación" antes de que Spotify estuviera listo
+    EmbedController.addListener("ready", function(){ if(musicAttempts === 0){ tryMusic(true); } });
+    if(invitationOpened && musicAttempts === 0){ tryMusic(true); }
   });
 };
 
-// "wheel" es scroll físico real en computador. En celular la música parte con el
-// primer toque: los navegadores no aceptan el scroll con el dedo como permiso para sonar.
-window.addEventListener("load", function(){
-  setTimeout(function(){
-    MUSIC_EVENTS.forEach(function(evt){
-      document.addEventListener(evt, requestMusicStart, { passive:true });
-    });
-  }, 400);
+MUSIC_EVENTS.forEach(function(evt){
+  document.addEventListener(evt, requestMusicStart, { passive:true });
 });
+
+/* ============ PANTALLA DE ENTRADA ============ */
+(function(){
+  var intro = document.getElementById("intro");
+  var content = document.getElementById("page-scroll");
+  content.inert = true;
+  intro.addEventListener("click", function(){
+    invitationOpened = true;
+    content.inert = false;
+    content.scrollTop = 0;
+    document.body.classList.remove("intro-on");
+    intro.classList.add("closing");
+    setTimeout(function(){ intro.hidden = true; }, 650);
+    tryMusic(true);
+  });
+})();
 </script>
 <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 </body>
