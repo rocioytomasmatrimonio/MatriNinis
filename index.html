@@ -713,6 +713,59 @@
 
 })();
 
+/* ============ SCROLL EN TODA LA PANTALLA ============
+   La invitación se desplaza solo dentro del marco. Para que también funcione al
+   deslizar sobre la mesa, las luces o las flores, esos gestos se traspasan al
+   área de la invitación. Lo que se ve no cambia. */
+(function(){
+  var scroller = document.getElementById("page-scroll");
+  var intro = document.getElementById("intro");
+  var lightbox = document.getElementById("lightbox");
+  var tracking = false, lastY = 0, lastT = 0, velocity = 0, rafId = 0;
+
+  function outside(target){
+    if(!intro.hidden) return false;                       // aún en la pantalla de entrada
+    if(lightbox.classList.contains("open")) return false; // foto ampliada abierta
+    return !scroller.contains(target);
+  }
+  function stopInertia(){ if(rafId){ cancelAnimationFrame(rafId); rafId = 0; } }
+
+  document.addEventListener("touchstart", function(e){
+    stopInertia();
+    tracking = e.touches.length === 1 && outside(e.target);
+    if(tracking){ lastY = e.touches[0].clientY; lastT = Date.now(); velocity = 0; }
+  }, { passive:true });
+
+  document.addEventListener("touchmove", function(e){
+    if(!tracking) return;
+    e.preventDefault(); // evita que el navegador intente recargar la página
+    var y = e.touches[0].clientY, t = Date.now();
+    var dy = lastY - y;
+    scroller.scrollTop += dy;
+    if(t > lastT){ velocity = 0.8 * (dy / (t - lastT)) + 0.2 * velocity; }
+    lastY = y; lastT = t;
+  }, { passive:false });
+
+  document.addEventListener("touchend", function(){
+    if(!tracking) return;
+    tracking = false;
+    if(Date.now() - lastT > 100) return; // el dedo se detuvo antes de soltar
+    var v = velocity * 16, prev = performance.now();
+    (function glide(now){
+      var dt = Math.max(1, now - prev) / 16; prev = now;
+      scroller.scrollTop += v * dt;
+      v *= Math.pow(0.95, dt);
+      rafId = Math.abs(v) > 0.5 ? requestAnimationFrame(glide) : 0;
+    })(prev);
+  });
+
+  document.addEventListener("wheel", function(e){
+    if(!outside(e.target)) return;
+    e.preventDefault();
+    scroller.scrollTop += e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? scroller.clientHeight : 1);
+  }, { passive:false });
+})();
+
 /* ============ ENTRADA Y MÚSICA ============ */
 (function(){
   var intro = document.getElementById("intro");
